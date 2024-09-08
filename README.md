@@ -1,5 +1,5 @@
 # HimeServ
-HimeServ is a "Home File Access Server". Using Nginx and Filebrowser to access files stored on my old laptop (arch) in a local network.
+HimeServ is a "Home File Access Server". Using Nginx and Filebrowser to access files stored on my old laptop (arch) via a web browser in a local network.
 
 ## Instructions
 
