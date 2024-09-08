@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 ExecStart=/usr/local/bin/filebrowser -c /etc/filebrowser/filebrowser.json
-User=xaxm
-Group=xaxm
+User=your_username
+Group=your_groupname
 
 [Install]
 WantedBy=multi-user.target
