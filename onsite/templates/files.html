@@ -1,0 +1,41 @@
+<html>
+    <title>HimeServ</title>
+<!--     <head>HimeServ</head> -->
+    <body>
+        <div>
+            {% if folders != [] %}
+            <h2>Folders</h2>
+
+            <div>
+                {% for folder, folder_path in folders.items() %}
+                    <ul><li>
+                        <a href="{{ url_for('home_surf', path=folder) }}">{{folder | safe}}</a>
+                    </li></ul>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+        </div>
+
+        <div>
+            {% if files != [] %}
+            <h2>Files</h2>
+
+            <div>
+                {% for file, file_path in files.items() %}
+                    <ul><li>
+                        <a href=>{{file | safe}}</a>
+                    </li></ul>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+        </div>
+
+        {% if files == [] and folders == [] %}
+
+        <div>Empty Folder!!</div>
+
+        {% endif %}
+    </body>
+</html>
