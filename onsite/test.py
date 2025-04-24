@@ -1,22 +1,32 @@
 import os
 from os.path import expanduser, isdir, isfile, join
 
-current_path = os.getcwd()
+BASE_DIR = expanduser("~")
 
-folders = {}
-files = {}
 
-for item in os.listdir(current_path):
-    if isdir(item):
-        # folders.append({item : f'{join(current_path, item)}'})
-        folders.update({item : join(current_path, item)})
+def home_surf(path):
+    folders = {}
+    files = {}
 
-    # if isfile(item):
-        # files.append({item : f'{join(current_path, item)}'})
+    if not path == '':
+        current_path = path
+    else:
+        current_path = join(BASE_DIR, path)
 
-for folder, folder_path in folders.items():
-    print(folder, folder_path)
-    # print(folder.keys())
-    # type(folder.keys())
+    folders = {}
+    files = {}
 
-print(current_path)
+    for item in os.listdir(current_path):
+        if not item.startswith('.'):
+            item_path = join(current_path, item)
+
+            if isdir(item_path):
+                folders.update({item : item_path})
+
+            if isfile(item_path):
+                files.update({item : item_path})
+
+    return folders, files
+
+traverse = input()
+print(home_surf(traverse))
