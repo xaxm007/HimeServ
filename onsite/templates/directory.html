@@ -24,7 +24,7 @@
                 <div>
                     {% for file, file_path in files.items() %}
                         <ul><li>
-                            <a href="{{ url_for('display_file', path=file_path) }}">{{file | safe}}</a>
+                            <a href="{{ url_for('display_file', path=file_path.strip('/')) }}">{{file | safe}}</a>
                         </li></ul>
                     {% endfor %}
                 </div>

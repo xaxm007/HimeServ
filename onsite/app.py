@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, send_from_directory
 import os
 from os.path import expanduser, isdir, isfile, join, abspath
 
@@ -34,8 +34,9 @@ def home_surf(path):
 
     return render_template('directory.html', folders=folders, files=files)
 
-@app.route('/display<path:path>')
+@app.route('/display/<path:path>')
 def display_file(path):
+    path = join('/', path)
     if isfile(path):
         filename = path.split('/')[-1]
         try:
@@ -45,6 +46,9 @@ def display_file(path):
             content = f"Error: {e}"
 
     return render_template('file.html', content=content, filename=filename)
+
+    # return send_from_directory()
+
 @app.route('/favicon.ico')
 def favicon():
     return '', 204  # No Content, tells browser: nothing to see here
