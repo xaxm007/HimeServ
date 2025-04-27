@@ -1,6 +1,8 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request, send_file
 import os
 from os.path import expanduser, isdir, isfile, join, abspath
+import io
+import zipfile
 
 # BASE_DIR = os.getcwd()
 BASE_DIR = expanduser("~")
@@ -37,17 +39,42 @@ def home_surf(path):
 @app.route('/display/<path:path>')
 def display_file(path):
     path = join('/', path)
-    if isfile(path):
-        filename = path.split('/')[-1]
-        try:
-            with open(path, 'r') as file:
-                content = file.read()
-        except Exception as e:
-            content = f"Error: {e}"
+    # if isfile(path):
+    #     filename = path.split('/')[-1]
+    #     try:
+    #         with open(path, 'r') as file:
+    #             content = file.read()
+    #     except Exception as e:
+    #         content = f"Error: {e}"
 
-    return render_template('file.html', content=content, filename=filename)
+    # return render_template('file.html', content=content, filename=filename)
 
-    # return send_from_directory()
+    return send_file(path, as_attachment=False)
+
+@app.route('/download', methods=['POST'])
+def download_file():
+
+    selected_files = request.form.getlist('files')
+    selected_folders = request.form.getlist('folders')
+
+    if len(selected_files) == 1:
+        filepath = selected_files[0]
+        return send_file(filepath, as_attachment=True)
+
+#     if len(selected_folders) == 1:
+#         folder_path = selected_folders[0]
+#
+#         return send_file(file_path, as_attachment=True)
+
+    else:
+        memory_file = io.BytesIO()
+        with zipfile.ZipFile(memory_file, 'w') as zf:
+            for filepath in selected_files:
+                zf.write(filepath)
+        memory_file.seek(0)
+        return send_file(memory_file, download_name='download.zip', as_attachment=True)
+
+    return send_file(path, as_attachment=True)
 
 @app.route('/favicon.ico')
 def favicon():

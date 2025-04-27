@@ -2,40 +2,50 @@
     <title>HimeServ</title>
 <!--     <head>HimeServ</head> -->
     <body>
-        <div>
-            {% if folders != [] %}
-                <h2>Folders</h2>
+        <form method="POST" action="/download">
+            <div class="top-right">
+                <button type="submit">Download</button>
+            </div>
 
-                <div>
-                    {% for folder, folder_path in folders.items() %}
-                        <ul><li>
-                            <a href="{{ url_for('home_surf', path=folder_path) }}">{{folder | safe}}</a>
-                        </li></ul>
-                    {% endfor %}
-                </div>
+            <div>
+                {% if folders != [] %}
+                    <h2>Folders</h2>
+
+                    <div>
+                        {% for folder, folder_path in folders.items() %}
+                            <ul><li>
+                                <a href="{{ url_for('home_surf', path=folder_path) }}">
+                                    <input type="checkbox" name="folders" value="{{ folder_path }}">{{folder | safe}}
+                                </a>
+                            </li></ul>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <div>
+                {% if files != [] %}
+                    <h2>Files</h2>
+
+                    <div>
+                        {% for file, file_path in files.items() %}
+                            <ul><li>
+                                <a href="{{ url_for('display_file', path=file_path.strip('/')) }}">
+                                    <input type="checkbox" name="files" value="{{ file_path }}">{{file | safe}}
+                                </a>
+                            </li></ul>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+            </div>
+
+            {% if files == [] and folders == [] %}
+
+                <div>Empty Folder!!</div>
+
             {% endif %}
-
-        </div>
-
-        <div>
-            {% if files != [] %}
-                <h2>Files</h2>
-
-                <div>
-                    {% for file, file_path in files.items() %}
-                        <ul><li>
-                            <a href="{{ url_for('display_file', path=file_path.strip('/')) }}">{{file | safe}}</a>
-                        </li></ul>
-                    {% endfor %}
-                </div>
-            {% endif %}
-
-        </div>
-
-        {% if files == [] and folders == [] %}
-
-        <div>Empty Folder!!</div>
-
-        {% endif %}
+        </form>
     </body>
 </html>
