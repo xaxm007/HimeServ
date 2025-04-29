@@ -70,7 +70,11 @@ def download_file():
         memory_file = io.BytesIO()
         with zipfile.ZipFile(memory_file, 'w') as zf:
             for filepath in selected_files:
-                zf.write(filepath)
+                arcname = os.path.basename(filepath)
+                zf.write(filepath, arcname=arcname)
+            for filepath in selected_folders:
+                arcname = os.path.basename(filepath)
+                zf.write(filepath, arcname=arcname)
         memory_file.seek(0)
         return send_file(memory_file, download_name='download.zip', as_attachment=True)
 
