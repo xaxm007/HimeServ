@@ -1,6 +1,6 @@
 from flask import Flask, render_template, send_from_directory, request, send_file
 import os
-from os.path import expanduser, isdir, isfile, join, abspath
+from os.path import expanduser, isdir, isfile, join, abspath, basename, relpath, dirname
 import io
 import zipfile
 
@@ -70,15 +70,18 @@ def download_file():
         memory_file = io.BytesIO()
         with zipfile.ZipFile(memory_file, 'w') as zf:
             for filepath in selected_files:
-                arcname = os.path.basename(filepath)
+                arcname = basename(filepath)
                 zf.write(filepath, arcname=arcname)
-            for filepath in selected_folders:
-                arcname = os.path.basename(filepath)
-                zf.write(filepath, arcname=arcname)
+            for folderpath in selected_folders:
+                for root, dirs, files in os.walk(folderpath):
+                    for file in files:
+                        fullpath = join(root, file)
+                        arcname = relpath(fullpath, start=dirname(folderpath))
+                        zf.write(fullpath, arcname=arcname)
         memory_file.seek(0)
         return send_file(memory_file, download_name='download.zip', as_attachment=True)
 
-    return send_file(path, as_attachment=True)
+    # return send_file(path, as_attachment=True)
 
 @app.route('/favicon.ico')
 def favicon():
