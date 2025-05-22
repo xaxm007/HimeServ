@@ -21,33 +21,65 @@
 
         <div class="container">
 
-            {% if folders != [] %}
+            {% if folders != {} %}
             <div class="mt-4">
-                <label class=" text-muted mb-3">Folders</label>
-                <ul class="list-group list-group-horizontal">
+                <label class="text-muted mb-3">Folders</label>
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                    {% for folder, folder_path in folders.items() %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <input class="form-check-input me-2" type="checkbox" name="folders" value="{{ folder_path }}">
+                                <i class="bi bi-folder-fill text-warning"></i>
+                                <a href="{{ url_for('home_surf', path=folder_path) }}" class="ms-2">{{folder | safe}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!--<ul class="list-group list-group-horizontal">
                 {% for folder, folder_path in folders.items() %}
                     <li class="list-group-item">
                         <a href="{{ url_for('home_surf', path=folder_path) }}">
-                            <input class="form-check-input me-2" type="checkbox" name="folders" value="{{ folder_path }}"> {{folder | safe}}
+                            <input class="form-check-input me-2" type="checkbox" name="folders" value="{{ folder_path }}">{{folder | safe}}
                         </a>
                     </li>
                 {% endfor %}
-                </ul>
+                </ul>-->
+
             </div>
             {% endif %}
 
-            {% if files != [] %}
+            {% if files != {} %}
             <div class="mt-3">
                 <label class="text-muted mb-3">Files</label>
-                <ul class="list-group list-group-horizontal">
+
+                <!--<ul class="list-group list-group-horizontal">
                 {% for file, file_path in files.items() %}
                     <li class="list-group-item">
                         <a href="{{ url_for('display_file', path=file_path.strip('/')) }}">
-                            <input class="form-check-input me-2" type="checkbox" name="files" value="{{ file_path }}"> {{file | safe}}
+                            <input class="form-check-input me-2" type="checkbox" name="files" value="{{ file_path }}">{{file | safe}}
                         </a>
                     </li>
                 {% endfor %}
-                </ul>
+                </ul>-->
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                    {% for file, file_path in files.items() %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                 <input class="form-check-input me-2" type="checkbox" name="files" value="{{ file_path }}">
+                                <i class="bi bi-folder-fill text-warning"></i>
+                                <a href="{{ url_for('display_file', path=file_path.strip('/')) }}" class="ms-2">{{file | safe}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
             </div>
             {% endif %}
 
