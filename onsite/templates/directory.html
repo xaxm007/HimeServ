@@ -6,80 +6,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>HimeServ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
   </head>
 
   <body>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script>
+        function toggleMode() {
+            var mode = document.body;
+            mode.classList.toggle("dark-mode");
+        }
+    </script>
 
     <form method="POST" action="/download">
-        <nav class="navbar navbar-lg bg-body-tertiary">
-            <div class="container">
-                <button class="text-end btn btn-outline-success" type="submit">Download</button>
+        <nav class="navbar navbar-expand-lg edit-navbar">
+            <div class="container justify-content-between">
+                <button class="btn btn-primary" onclick="toggleMode()" type="button">
+                    Dark mode <i class="bi bi-moon-stars"></i>
+                </button>
+                <button class="btn btn-outline-success" type="submit">
+                    Download <i class="bi bi-download"></i>
+                </button>
             </div>
         </nav>
 
         <div class="container">
-
             {% if folders != {} %}
             <div class="mt-4">
-                <label class="text-muted mb-3">Folders</label>
-
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                <label class="mb-3 edit-label">Folders</label>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
                     {% for folder, folder_path in folders.items() %}
                     <div class="col">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <input class="form-check-input me-2" type="checkbox" name="folders" value="{{ folder_path }}">
-                                <i class="bi bi-folder-fill text-warning"></i>
-                                <a href="{{ url_for('home_surf', path=folder_path) }}" class="ms-2">{{folder | safe}}</a>
+                            <div class="card h-100 edit-card">
+                                <div class="card-body">
+                                    <a href="{{ url_for('home_surf', path=folder_path) }}" class="text-decoration-none text-reset">
+                                        <input class="form-check-input me-2" type="checkbox" name="folders" value="{{ folder_path }}">
+                                        <i class="bi bi-folder"></i>
+                                        <span class="ms-2">{{folder | safe}}</span>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
                     </div>
                     {% endfor %}
                 </div>
-
-                <!--<ul class="list-group list-group-horizontal">
-                {% for folder, folder_path in folders.items() %}
-                    <li class="list-group-item">
-                        <a href="{{ url_for('home_surf', path=folder_path) }}">
-                            <input class="form-check-input me-2" type="checkbox" name="folders" value="{{ folder_path }}">{{folder | safe}}
-                        </a>
-                    </li>
-                {% endfor %}
-                </ul>-->
-
             </div>
             {% endif %}
 
             {% if files != {} %}
             <div class="mt-3">
-                <label class="text-muted mb-3">Files</label>
-
-                <!--<ul class="list-group list-group-horizontal">
-                {% for file, file_path in files.items() %}
-                    <li class="list-group-item">
-                        <a href="{{ url_for('display_file', path=file_path.strip('/')) }}">
-                            <input class="form-check-input me-2" type="checkbox" name="files" value="{{ file_path }}">{{file | safe}}
-                        </a>
-                    </li>
-                {% endfor %}
-                </ul>-->
-
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                <label class="mb-3 edit-label">Files</label>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
                     {% for file, file_path in files.items() %}
                     <div class="col">
-                        <div class="card h-100">
+                        <div class="card h-100 edit-card">
                             <div class="card-body">
-                                 <input class="form-check-input me-2" type="checkbox" name="files" value="{{ file_path }}">
-                                <i class="bi bi-folder-fill text-warning"></i>
-                                <a href="{{ url_for('display_file', path=file_path.strip('/')) }}" class="ms-2">{{file | safe}}</a>
+                                <a href="{{ url_for('display_file', path=file_path.strip('/')) }}" class="text-decoration-none text-reset">
+                                    <input class="form-check-input me-2" type="checkbox" name="files" value="{{ file_path }}">
+                                    <i class="bi bi-file-earmark"></i>
+                                    <span class="ms-2">{{file | safe}}</span>
+                                </a>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-
             </div>
             {% endif %}
 
@@ -88,7 +80,10 @@
             {% endif %}
 
         </div>
+
+
     </form>
+
   </body>
 
 </html>

@@ -1,0 +1,35 @@
+body{
+    background-color: white;
+    color: black;
+}
+
+body .edit-navbar{
+    background-color: #999999;
+}
+
+body .edit-card{
+    background-color: #999999;
+}
+
+.dark-mode{
+    background-color: #222222;
+    color: #ccc;
+}
+
+body.dark-mode .edit-navbar{
+    background-color: #333333;
+    color: #ccc;
+}
+
+body.dark-mode .edit-card{
+    background-color: #333333;
+    color: #ccc;
+}
+
+label.edit-label{
+    color: black;
+}
+
+body.dark-mode label.edit-label{
+    color: #ccc;
+}
